@@ -1,3 +1,23 @@
+type Error = variant { NotFound : record { msg : text } };
+type Result = variant { Ok : Student; Err : Error };
+type Student = record {
+  id : nat64;
+  age : text;
+  updated_at : opt nat64;
+  hobby : text;
+  name : text;
+  created_at : nat64;
+  email : text;
+};
+type StudentPayload = record {
+  age : text;
+  hobby : text;
+  name : text;
+  email : text;
+};
 service : {
-    "greet": (text) -> (text) query;
+  add_student : (StudentPayload) -> (opt Student);
+  delete_student : (nat64) -> (Result);
+  get_student : (nat64) -> (Result) query;
+  update_student : (nat64, StudentPayload) -> (Result);
 }
