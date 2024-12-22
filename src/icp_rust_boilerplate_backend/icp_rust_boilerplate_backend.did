@@ -1,23 +1,53 @@
+type Book = record {
+  id : nat64;
+  title : text;
+  updated_at : opt nat64;
+  created_at : nat64;
+  author : text;
+};
+type BookPayload = record { title : text; author : text };
 type Error = variant { NotFound : record { msg : text } };
-type Result = variant { Ok : Student; Err : Error };
+type Loan = record {
+  id : nat64;
+  updated_at : opt nat64;
+  student_id : nat64;
+  created_at : nat64;
+  loan_date : nat64;
+  book_id : nat64;
+};
+type LoanPayload = record {
+  student_id : nat64;
+  loan_date : nat64;
+  book_id : nat64;
+};
+type Result = variant { Ok : Book; Err : Error };
+type Result_1 = variant { Ok : Loan; Err : Error };
+type Result_2 = variant { Ok : Student; Err : Error };
+type Result_3 = variant { Ok : vec Book; Err : Error };
+type Result_4 = variant { Ok : vec Loan; Err : Error };
+type Result_5 = variant { Ok : vec Student; Err : Error };
 type Student = record {
   id : nat64;
-  age : text;
   updated_at : opt nat64;
-  hobby : text;
   name : text;
   created_at : nat64;
   email : text;
 };
-type StudentPayload = record {
-  age : text;
-  hobby : text;
-  name : text;
-  email : text;
-};
+type StudentPayload = record { name : text; email : text };
 service : {
+  add_book : (BookPayload) -> (opt Book);
+  add_loan : (LoanPayload) -> (opt Loan);
   add_student : (StudentPayload) -> (opt Student);
-  delete_student : (nat64) -> (Result);
-  get_student : (nat64) -> (Result) query;
-  update_student : (nat64, StudentPayload) -> (Result);
+  delete_book : (nat64) -> (Result);
+  delete_loan : (nat64) -> (Result_1);
+  delete_student : (nat64) -> (Result_2);
+  get_all_books : () -> (Result_3) query;
+  get_all_loans : () -> (Result_4) query;
+  get_all_students : () -> (Result_5) query;
+  get_book : (nat64) -> (Result) query;
+  get_loan : (nat64) -> (Result_1) query;
+  get_student : (nat64) -> (Result_2) query;
+  update_book : (nat64, BookPayload) -> (Result);
+  update_loan : (nat64, LoanPayload) -> (Result_1);
+  update_student : (nat64, StudentPayload) -> (Result_2);
 }
